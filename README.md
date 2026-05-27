@@ -1,1 +1,3 @@
+
 # ProjektInformatyka
+zmiana
