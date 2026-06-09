@@ -1,2 +1,6 @@
 yolo1.txt
 yolo2.txt
+*.exe
+*.obj
+test.cpp
+temp/

@@ -12,3 +12,5 @@
         KodInformatyka.cpp
         README.md (zawiera informacje nt. instalacji i sterowania grą)
         dokumentacja.txt
+03.06 - Dodano inicjalizacje planszy i sprawdzanie kolizji 
+09.06 - dodano prowizoryczny ekran startu
