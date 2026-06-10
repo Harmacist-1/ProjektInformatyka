@@ -268,8 +268,25 @@ bool ifcollision ( int rotation, int x, int y){
         }
     }
     return false; // brak kolizji
+
+
+
 }
 
+
+void placeShape() {
+    for(int px = 0; px < 4; px++) {
+        for(int py = 0; py < 4; py++) {
+            if(shapes[current_shape][current_rotation][px][py] == 'X') {
+                int board_x = current_x + px;
+                int board_y = current_y + py;
+                if(board_x >= 0 && board_x < board_width && board_y >= 0 && board_y < board_height) {
+                    board[board_y][board_x] = 'X';
+                }
+            }
+        }
+    }
+}
 int main(){
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
@@ -279,4 +296,7 @@ int main(){
     cout << "aby rozpocząć grę wciśnij dowolny klawisz..." << endl;
     _getch();
  
+    BoardInit();
+
+    
 }
