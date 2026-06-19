@@ -2,7 +2,7 @@
 31.05.2026 - Opracowano plan projektu:
     konsolowa gra Tetris z planszą 2D
     ekran startowy z imieniem i nazwiskiem autora
-    widoczny stan gry i współrzędne
+   ---> widoczny stan gry i współrzędne
     sterowanie klockami
     zmiana tablicy w trakcie ruchu i przy zatwierdzeniu klocka
     punktacja za usuwane linie
