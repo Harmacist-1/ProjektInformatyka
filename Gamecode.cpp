@@ -268,6 +268,9 @@ bool ifcollision ( int rotation, int x, int y){
         }
     }
     return false; // brak kolizji
+
+
+
 }
 
 void drawGame() {
