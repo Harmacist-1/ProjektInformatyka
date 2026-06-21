@@ -239,18 +239,20 @@ int current_rotation;
 int current_x;
 int current_y;
 int score;
-int cleared_lines;
+int lines_cleared;
 bool game_over;
 bool pause;
 
 
 void BoardInit() {
+
     for(int y = 0 ; y < board_height; y++) { //
         for(int x = 0; x < board_width; x++) {//
             board[y][x] = '.';
         }
     }
 }
+
 
 bool ifcollision ( int rotation, int x, int y){
     for(int  px = 0; px < 4; px++){
@@ -271,6 +273,48 @@ bool ifcollision ( int rotation, int x, int y){
 
 
 
+}
+
+void placePiece() {
+    for (int py = 0; py < 4; py++) {
+        for (int px = 0; px < 4; px++) {
+            if (shapes[current_shape][current_rotation][py][px] == 'X') {
+                int boardX = current_x+ px;
+                int boardY = current_y + py;
+                if (boardY >= 0 && boardY < board_height && boardX >= 0 && boardX < board_width) {
+                    board[boardY][boardX] = 'X';
+                }
+            }
+        }
+    }
+}
+void clearFullLines() {
+    int lines = 0;
+    for (int y = board_height - 1; y >= 0; y--) {
+        bool full = true;
+        for (int x = 0; x < board_width; x++) {
+            if (board[y][x] == '.') {
+                full = false;
+                break;
+            }
+        }
+        if (full) {
+            lines++;
+            for (int row = y; row > 0; row--) {
+                for (int x = 0; x < board_width; x++) {
+                    board[row][x] = board[row - 1][x];
+                }
+            }
+            for (int x = 0; x < board_width; x++) {
+                board[0][x] = '.';
+            }
+            y++;
+        }
+    }
+    if (lines > 0) {
+        lines_cleared += lines;
+        score += lines * 100;
+    }
 }
 
 void drawGame() {
@@ -300,7 +344,7 @@ void drawGame() {
         cout << "*** GRA W PAUZIE - wcisnij P, aby kontynuowac ***" << endl;
     }
     cout << "Wspolrzedne aktualnego klocka: X=" << current_x << " Y=" << current_y << endl;
-    cout << "Wynik: " << score << "  Linie: " << cleared_lines << endl;
+    cout << "Wynik: " << score << "  Linie: " << lines_cleared << endl;
     cout << "+";
     for (int x = 0; x < board_width; x++) cout << "-";
     cout << "+" << endl;
@@ -319,6 +363,8 @@ void drawGame() {
     }
 }
 
+
+
 int main(){
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
@@ -329,7 +375,7 @@ int main(){
     game_over = false;
     pause = false;
     score = 0;
-    cleared_lines = 0;
+    lines_cleared = 0;
 
 
     cout << "TETRIS w C++" << endl;
