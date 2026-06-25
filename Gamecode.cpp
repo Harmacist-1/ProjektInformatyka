@@ -317,6 +317,16 @@ void clearFullLines() {
     }
 }
 
+void spawnPiece() {
+    current_shape = rand() % shape_type;
+    current_rotation = 0;
+    current_x = board_width / 2 - 2;
+    current_y = 0;
+    if (ifcollision(current_rotation, current_x, current_y)) {
+        game_over = true;
+    }
+}
+
 void drawGame() {
     char displayBoard[board_height][board_width];
     for (int y = 0; y < board_height; y++) {
@@ -363,6 +373,12 @@ void drawGame() {
     }
 }
 
+void saveScore() {
+    ofstream outFile("tetris_score.txt", ios::app);
+    if (outFile.is_open()) {
+        outFile << "Wynik: " << score << " Linie: " << lines_cleared << "\n";
+    }
+}
 
 
 int main(){
@@ -381,7 +397,27 @@ int main(){
     cout << "TETRIS w C++" << endl;
     cout << "Autor: Miron Karwasz" << endl;
     cout << "aby rozpocząć grę wciśnij dowolny klawisz..." << endl;
-    _getch();
- 
-    drawGame();                         
+        int startKey = _getch(); // oczekiwanie na wciśnięcie klawisza
+    if (startKey == 0 || startKey == 224) {
+        _getch(); // odczytaj i wyrzuć kod rozszerzony klawisza
+    }
+
+    spawnPiece();                       //pierwszy klocek
+    drawGame();                         // pokazujemy stan gry od razu
+
+    DWORD lastTime = GetTickCount();  //czas ostatniego spadku klocka
+    int dropDelay = 500; 
+    
+    
+
+
+
+
+     drawGame();
+    saveScore();
+    int endKey = _getch();
+    if (endKey == 0 || endKey == 224) {
+        _getch();
+    }
+    return 0;
 }
