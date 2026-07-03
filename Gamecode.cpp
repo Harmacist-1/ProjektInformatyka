@@ -255,9 +255,9 @@ void BoardInit() {
 
 
 bool ifcollision ( int rotation, int x, int y){
-    for(int  px = 0; px < 4; px++){
-        for(int py = 0; py < 4; py++){
-            if( shapes[current_shape][rotation][px][py] == 'X'){ // sprawdzanie czy klocki są na planszy
+    for(int  py = 0; py < 4; py++){
+        for(int px = 0; px < 4; px++){
+            if( shapes[current_shape][rotation][py][px] == 'X'){ // sprawdzanie czy klocki są na planszy
                 int board_x = x + px; 
                 int board_y = y + py; 
                 if(board_x < 0 || board_x >= board_width || board_y < 0 || board_y >= board_height) { 
@@ -408,7 +408,60 @@ int main(){
     DWORD lastTime = GetTickCount();  //czas ostatniego spadku klocka
     int dropDelay = 500; 
     
-    
+     while (!game_over) {
+        if (_kbhit()) {             //sprawdzenie, czy wciśnięto klawisz
+            int key = _getch();         //odczyt klawisza
+            if (key == 0 || key == 224) { //strzałki
+                int arrow = _getch(); //odczyt kodu strzałki
+                if (!pause) { // tylko jeśli gra nie jest w pauzie
+                    if (arrow == 75) {
+                        if (!ifcollision(current_rotation, current_x - 1, current_y)) current_x--;
+                    } else if (arrow == 77) {
+                        if (!ifcollision(current_rotation, current_x + 1, current_y)) current_x++;
+                    } else if (arrow == 80) {
+                        if (!ifcollision(current_rotation, current_x, current_y + 1)) current_y++;
+                    } else if (arrow == 72) {
+                        int next_rotation = (current_rotation + 1) % 4;
+                        if (!ifcollision(next_rotation, current_x, current_y)) current_rotation = next_rotation;
+                    }
+                }
+            } else {
+                if (key == 'p' || key == 'P') {
+                    pause = !pause;
+                } else if (!pause) {
+                    if (key == 'a' || key == 'A') {
+                        if (!ifcollision(current_rotation, current_x - 1, current_y)) current_x--;
+                    } else if (key == 'd' || key == 'D') {
+                        if (!ifcollision(current_rotation, current_x + 1, current_y)) current_x++;
+                    } else if (key == 's' || key == 'S') {
+                        if (!ifcollision(current_rotation, current_x, current_y + 1)) current_y++;
+                    } else if (key == 'w' || key == 'W' || key == ' ') {
+                        int next_rotation = (current_rotation + 1) % 4;
+                        if (!ifcollision(next_rotation, current_x, current_y)) current_rotation = next_rotation;
+                    } else if (key == 'q' || key == 'Q') {
+                        game_over = true;
+                    }
+                } else if (key == 'q' || key == 'Q') {
+                    game_over = true;
+                }
+            }
+        }
+
+        DWORD currentTime = GetTickCount(); //aktualny czas
+        if (!pause && currentTime - lastTime > (DWORD)dropDelay) {     //sprawdzenie, czy minął czas spadku
+            if (!ifcollision(current_rotation, current_x, current_y + 1)) { //jeśli nie ma kolizji, klocek spada
+                current_y++;
+            } else {
+                placePiece(); // umieszczenie klocka na planszy
+                clearFullLines(); // sprawdzenie i usunięcie pełnych linii
+                spawnPiece();  // pojawienie się nowego klocka
+            }
+            lastTime = currentTime; // zresetowanie czasu ostatniego spadku
+        }
+
+        drawGame(); // narysowanie planszy
+        Sleep(50); // małe opóźnienie, aby gra była płynniejsza
+    }
 
 
 
