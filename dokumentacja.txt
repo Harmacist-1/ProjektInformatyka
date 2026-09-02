@@ -12,5 +12,15 @@
         KodInformatyka.cpp
         README.md (zawiera informacje nt. instalacji i sterowania grą)
         dokumentacja.txt
-03.06 - Dodano inicjalizacje planszy i sprawdzanie kolizji 
+02.06 - zadeklarowano bloki - dowiedziałem się że aby dodać style rotacji to muszę skorzystać z czterowymiarowej tablicy.
+03.06 - Dodano inicjalizacje planszy i sprawdzanie kolizji w sprawdzaniu kolizji miałem problem ze zrozumieniem części kodu,
+ która jak się okazuje miała na celu określenie kordynatu kształtu wewnątrz tego bloku 4x4 na którym został  zadeklarowany
 09.06 - dodano prowizoryczny ekran startu
+10.06 - dodano dodawanie punktów oraz generowanie bloczków - tutaj w sumie wszystko poszło gładko bo  robiłem tutaj rzeczy bardzo podobne do tego co w kolizjach
+19.06 - dodano generowanie pustej planszy oraz dodano spawnowanie klocków i wyświetlanie pustej planszy
+21.06 - dodano pojawianie się bloków na planszy oraz usuwanie rzędów które zostały zapełnione - problemy -  nie zrozumiałem że sprawdzając rzędy musisz zrobić sprawdzanie od 0 do 19 z powodu indexów
+25.06 - zapisywanie wyników w plikach- tym razem nic
+03.07 - dodanie sterowania na strzałki i WASD oraz buforowanie tablicy z rysowaniem poprzez
+ odtwarzanie pętli w oparciu o ticki procesora - 
+ problemy - nie wiedziałem że musiałem użyć ticków procesora w tym zadeklarować potrzebne zmienne jako unsigned long long znanej jako DWORD oraz musiałem się nauczyć składni do _getch a także że za każdym razem kiedy u
+żywam klawisza to muszę sprawdzać czy nie ma kolizji jedną z rzeczy której nie wiedziałem były pewne funkcje których nie umieściłem w odpowiednich miejscach.

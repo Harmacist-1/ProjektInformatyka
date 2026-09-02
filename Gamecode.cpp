@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
@@ -123,7 +122,7 @@ const char shapes[shape_type][4][4][4] = {
         {'.', 'X', '.', '.'},
         {'.', '.', '.', '.'}
     }},
-  
+
     {{
         {'.', '.', '.', '.'},
         {'.', 'X', 'X', '.'},
@@ -145,7 +144,7 @@ const char shapes[shape_type][4][4][4] = {
         {'.', '.', 'X', '.'},
         {'.', '.', '.', '.'}
     }},
-   
+
     {{
         {'.', '.', '.', '.'},
         {'X', 'X', '.', '.'},
@@ -167,7 +166,7 @@ const char shapes[shape_type][4][4][4] = {
         {'.', 'X', '.', '.'},
         {'.', '.', '.', '.'}
     }},
-   
+
     {{
         {'.', '.', '.', '.'},
         {'.', 'X', '.', '.'},
@@ -288,20 +287,21 @@ void placePiece() {
         }
     }
 }
+
 void clearFullLines() {
     int lines = 0;
-    for (int y = board_height - 1; y >= 0; y--) {
+    for (int y = board_height - 1; y >= 0; y--) { // -1 bo indexy są do 19 a nie 20
         bool full = true;
         for (int x = 0; x < board_width; x++) {
-            if (board[y][x] == '.') {
+            if (board[y][x] == '.') { //jeśli znajdzie kropke a w lini to daje full na false
                 full = false;
                 break;
             }
         }
         if (full) {
             lines++;
-            for (int row = y; row > 0; row--) {
-                for (int x = 0; x < board_width; x++) {
+            for (int row = y; row > 0; row--) {     
+                for (int x = 0; x < board_width; x++) {  //jeśli jest pełna linia skasuj ostatnie które były pełne i zapełnij je od góry następnymi pustymi
                     board[row][x] = board[row - 1][x];
                 }
             }
@@ -341,7 +341,7 @@ void drawGame() {
                 int boardX = current_x + px;
                 int boardY = current_y + py;
                 if (boardX >= 0 && boardX < board_width && boardY >= 0 && boardY < board_height) {
-                    displayBoard[boardY][boardX] = 'O';
+                    displayBoard[boardY][boardX] = '@';
                 }
             }
         }
@@ -398,7 +398,7 @@ int main(){
     cout << "Autor: Miron Karwasz" << endl;
     cout << "aby rozpocząć grę wciśnij dowolny klawisz..." << endl;
         int startKey = _getch(); // oczekiwanie na wciśnięcie klawisza
-    if (startKey == 0 || startKey == 224) {
+    if (startKey == 224) {
         _getch(); // odczytaj i wyrzuć kod rozszerzony klawisza
     }
 
@@ -407,11 +407,11 @@ int main(){
 
     DWORD lastTime = GetTickCount();  //czas ostatniego spadku klocka
     int dropDelay = 500; 
-    
-     while (!game_over) {
+
+    while (!game_over) {
         if (_kbhit()) {             //sprawdzenie, czy wciśnięto klawisz
             int key = _getch();         //odczyt klawisza
-            if (key == 0 || key == 224) { //strzałki
+            if (key == 224) { //strzałki
                 int arrow = _getch(); //odczyt kodu strzałki
                 if (!pause) { // tylko jeśli gra nie jest w pauzie
                     if (arrow == 75) {
@@ -463,13 +463,9 @@ int main(){
         Sleep(50); // małe opóźnienie, aby gra była płynniejsza
     }
 
-
-
-
-     drawGame();
     saveScore();
     int endKey = _getch();
-    if (endKey == 0 || endKey == 224) {
+    if (endKey == 224) {
         _getch();
     }
     return 0;
